@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -14,11 +15,11 @@ public class Role {
 
 	@Id
 	private String name;
-	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	@JoinTable(joinColumns = {
-		@JoinColumn(name="user_email", referencedColumnName = "email")},
-		inverseJoinColumns = @JoinColumn(name = "role_name", referencedColumnName = "name"))
+		
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+	@JoinTable(name="role_user",
+			joinColumns = @JoinColumn(name="role_name"),
+			inverseJoinColumns = @JoinColumn(name="user_email"))
 	private List<User> users;
 	
 	public Role() {}

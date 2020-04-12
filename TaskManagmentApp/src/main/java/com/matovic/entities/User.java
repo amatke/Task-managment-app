@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -32,10 +33,10 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Set<Task> tasks;
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	@JoinTable(joinColumns = {
-		@JoinColumn(name = "role_name", referencedColumnName = "name")},
-		inverseJoinColumns = @JoinColumn(name="user_email", referencedColumnName = "email"))
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+	@JoinTable(name = "role_user",
+				joinColumns = @JoinColumn(name="user_email", referencedColumnName = "email"),
+				inverseJoinColumns = @JoinColumn(name = "role_name", referencedColumnName = "name"))
 	private Set<Role> roles;
 	
 	public User() {}
