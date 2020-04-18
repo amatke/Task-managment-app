@@ -1,7 +1,6 @@
 package com.matovic.services;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,9 @@ public class TaskService {
 		taskRepository.save(task);
 	}
 	
-	public Set<Task> findUserTask(User user){
+	public List<Task> findUserTask(User user){
 		return taskRepository.findByUser(user);
 	}
+	
+	
 }

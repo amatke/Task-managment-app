@@ -1,6 +1,6 @@
 package com.matovic.entities;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,34 +25,34 @@ public class User {
 	private String email;
 	
 	@NotEmpty
-	private String userName;
+	private String name;
 	
 	@Size(min = 4)
 	private String password;
-	
+
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	private Set<Task> tasks;
+	private List<Task> tasks;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
 	@JoinTable(name = "role_user",
 				joinColumns = @JoinColumn(name="user_email", referencedColumnName = "email"),
 				inverseJoinColumns = @JoinColumn(name = "role_name", referencedColumnName = "name"))
-	private Set<Role> roles;
+	private List<Role> roles;
 	
 	public User() {}
 	
-	public User(String userName, String email, String password) {
+	public User(String name, String email, String password) {
 		super();
-		this.userName = userName;
+		this.name = name;
 		this.email = email;
 		this.password = password;
 	}
 	
-	public String getUserName() {
-		return userName;
+	public String getName() {
+		return name;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getEmail() {
 		return email;
@@ -66,16 +66,16 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Set<Task> getTasks() {
+	public List<Task> getTasks() {
 		return tasks;
 	}
-	public void setTasks(Set<Task> tasks) {
+	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
 	}
-	public Set<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 }
