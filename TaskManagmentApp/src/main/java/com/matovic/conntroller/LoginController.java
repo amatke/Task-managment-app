@@ -1,6 +1,7 @@
 package com.matovic.conntroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,10 +26,15 @@ public class LoginController {
 	@PostMapping("/login")
 	public String login(User user, Model model) {
 		User u = userservice.findOne(user.getEmail()); 
-		if ( u != null && u.getPassword().equals(user.getPassword())) {
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
+						
+		if ( u != null && encoder.matches(user.getPassword(), u.getPassword())) {
 			System.out.println("Ulogovan!");
+			model.addAttribute("user", u);
 			return "views/profile";
 		}
-		return null;
+		model.addAttribute("wrongPass", true);
+		return "views/loginForm";
 	}
 }
