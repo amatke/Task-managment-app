@@ -12,21 +12,21 @@
 		<p class="text text-center"> User with this Email already Exist</p>
 	</div>
 	<div class="container">
-		<form th:action="@{/register}" th:object="${user}" method="POST">
+		<form action="#" th:action="@{/register}" th:object="${user}" method="POST">
 			<div class="form-group">
-				<label for="email" >Email</label> 
-				<input type="email" class="form-control" th:field="*{email}" id="email" />
+				<label for="email" class="form-control-label">Email</label> 
+				<input type="text" class="form-control" th:field="*{email}" placeholder="Enter email" />
 				<div class="text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 			</div>
-		  <div class="form-group">
-		    	<label for="name">Username</label>
-		    	<input type="text" id="name" th:field="${user.name}" class="form-control"  placeholder="Enter username">
+		  <div class="form-group">	  
+		    	<label for="name" class="form-control-label">Username</label>
+		    	<input type="text" th:field="*{name}" class="form-control"  placeholder="Enter username" />
 		    	<div class="text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 		  </div>
 		  <div class="form-group">
-		    	<label for="pass">Password</label>
-		   		<input type="password" id="password" th:field="${user.password}" class="form-control"  pattern=".{4,}"   required title="4 characters minimum" placeholder="Password">
-		   		<div class="text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{pass}"></div>
+		  		 <label for="password" class="form-control-label">Password</label> 
+		  		<input type="password" class="form-control" th:field="*{password}" placeholder="Enter password" />
+				<div class="text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 		  </div>
 		  <button type="submit" class="btn btn-primary">Submit</button>
 		</form>

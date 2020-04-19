@@ -1,20 +1,26 @@
 package com.matovic.conntroller;
 
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.matovic.entities.User;
-import com.matovic.services.UserService;
+import com.matovic.repositories.UserRepository;
 
 @Controller
 public class LoginController {
 	
 	@Autowired
-	private UserService userservice;
+	private UserRepository userRepository;
 
 	@GetMapping("/login")
 	public String loginForm(Model model) {
@@ -24,14 +30,23 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String login(User user, Model model) {
-		User u = userservice.findOne(user.getEmail()); 
+	public String login(@Valid User user, BindingResult bindingResult, Model model) {
+			
+		if(bindingResult.hasErrors()) {
+			for (ObjectError e : bindingResult.getFieldErrors()) {
+				if(!e.getCodes()[0].endsWith("name")) {
+					return "views/loginForm";
+				}
+			}
+		}
 		
+		
+		Optional<User> u = userRepository.findById(user.getEmail());
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
 						
-		if ( u != null && encoder.matches(user.getPassword(), u.getPassword())) {
+		if ( u.isPresent()  && encoder.matches(user.getPassword(), u.get().getPassword())) {
 			System.out.println("Ulogovan!");
-			model.addAttribute("user", u);
+			model.addAttribute("user", u.get());
 			return "views/profile";
 		}
 		model.addAttribute("wrongPass", true);
