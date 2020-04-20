@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,12 +18,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.matovic.entities.User;
 import com.matovic.repositories.UserRepository;
+import com.matovic.services.TaskService;
 
 @Controller
 public class LoginController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private TaskService taskService;
 
 	@GetMapping("/login")
 	public String loginForm(Model model) {
@@ -68,7 +73,9 @@ public class LoginController {
 	
 	
 	@GetMapping("/profile")
-	public String profile() {
+	public String profile(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("User");
+		model.addAttribute("tasks", taskService.findUserTask(user));
 		return "views/profile";
 	}
 }

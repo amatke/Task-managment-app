@@ -14,6 +14,26 @@
 				Welcome dear  <p  th:text="${session.User.name}" /> 
 			</div>
 			
+			
+			<table class="table table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<td>Date</td>
+						<td>Start time</td>
+						<td>Stop time</td>
+						<td>Description</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="task:${tasks}">
+						<td th:text="${task.date}"></td>
+						<td th:text="${task.startTime}"></td>
+						<td th:text="${task.stopTime}"></td>
+						<td th:text="${task.description}"></td>
+					</tr>
+				</tbody>
+			</table>
+			
 	</div>
 
 	

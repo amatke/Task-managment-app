@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: my_header">
+</head>
+<body>
+	
+	<div th:replace="fragments/navbar :: my_navbar"></div>	
+	
+	<h3>Users page</h3>
+	
+	<div class="container">
+		    
+		    <div class="container">
+		    	<form action="/users" class="form-inline" >
+					<input type="search" name="searchName" class="search" placeholder="Search User by name">
+	     		</form>
+		    </div> 
+
+	     
+			
+			<table class="table table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<td>Name</td>
+						<td>Mail</td>
+						<td>Add task</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user:${users}">
+						<td th:text="${user.name}"></td>
+						<td th:text="${user.email}"></td>
+						<td> <a th:href="@{/addTask(email=${user.email})}" class="btn btn-light">Add</a></td>
+					</tr>
+				</tbody>
+			</table>
+			
+	</div>
+
+	
+</body>
+<footer th:replace="fragments/footer :: my_footer"></footer>
+</html>
