@@ -2,6 +2,7 @@ package com.matovic.conntroller;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.matovic.entities.User;
 import com.matovic.repositories.UserRepository;
@@ -24,13 +26,13 @@ public class LoginController {
 
 	@GetMapping("/login")
 	public String loginForm(Model model) {
-		
+
 		model.addAttribute("user", new User());
 		return "views/loginForm";
 	}
 	
 	@PostMapping("/login")
-	public String login(@Valid User user, BindingResult bindingResult, Model model) {
+	public String login(@Valid User user, BindingResult bindingResult, Model model, HttpSession session, RedirectAttributes redirAttr) {
 			
 		if(bindingResult.hasErrors()) {
 			for (ObjectError e : bindingResult.getFieldErrors()) {
@@ -40,16 +42,33 @@ public class LoginController {
 			}
 		}
 		
-		
 		Optional<User> u = userRepository.findById(user.getEmail());
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
 						
 		if ( u.isPresent()  && encoder.matches(user.getPassword(), u.get().getPassword())) {
 			System.out.println("Ulogovan!");
 			model.addAttribute("user", u.get());
+			session.setAttribute("User", u.get());
+	        session.setAttribute("btnLogOut", true);
+			//redirAttr.addFlashAttribute("btnLogOut", true);
 			return "views/profile";
 		}
 		model.addAttribute("wrongPass", true);
 		return "views/loginForm";
+	}
+	
+	
+	
+	@GetMapping("/logOut")
+	public String loginOut(HttpSession session) {
+		session.removeAttribute("btnLogOut");
+		session.removeAttribute("User");
+		return "index";
+	}
+	
+	
+	@GetMapping("/profile")
+	public String profile() {
+		return "views/profile";
 	}
 }
