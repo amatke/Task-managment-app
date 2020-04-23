@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="fragments/header :: my_header"></head>
+<body>
+	
+	<div th:replace="fragments/navbar :: my_navbar"></div>	
+	
+	<h3>Error page</h3>
+	
+	<div class="container mySpace">
+	
+	     <div>
+            There was an error |<span th:text="${message}"></span>| <span th:text="${status}" class="text text-danger"></span>
+         </div>
+		<br>
+		<div class="text text-danger">
+			Please contact site administrator if you reached so far
+		</div>
+	
+	</div>
+
+	
+</body>
+<footer th:replace="fragments/footer :: my_footer"></footer>
+</html>
