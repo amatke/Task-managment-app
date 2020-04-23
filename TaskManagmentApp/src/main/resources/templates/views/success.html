@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: my_header">
+</head>
+<body>
+	
+	<div th:replace="fragments/navbar :: my_navbar"></div>	
+	
+	<h3>Profile page</h3>
+	
+	<div class="container mySpace">
+		
+		<div class="alert alert-success">
+			Registration success! 
+			Please sign in to continue
+		</div>
+	
+	</div>
+
+	
+</body>
+<footer th:replace="fragments/footer :: my_footer"></footer>
+</html>

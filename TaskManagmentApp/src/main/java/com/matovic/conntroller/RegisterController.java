@@ -19,7 +19,7 @@ public class RegisterController {
 	@Autowired
 	public UserService userService;
 	
-	@GetMapping("/registerF")
+	@GetMapping("/register")
 	public String registerForm(Model model, HttpSession session) {
 				
 		model.addAttribute("user", new User());
@@ -27,10 +27,8 @@ public class RegisterController {
 	}
 	
 	
-	@PostMapping("/REGISTER")
+	@PostMapping("/register")
 	public String register(@Valid User user, BindingResult bindingResult, Model model) {		//BindingResult mora da bude odmah posle bean-a user
-
-		//model.addAttribute("exist", false);
 		
 		if(bindingResult.hasErrors()) {
 			return "views/registerForm";
@@ -39,10 +37,8 @@ public class RegisterController {
 			model.addAttribute("exist", true);
 			return "views/registerForm";
 		}
-		
-		model.addAttribute("created", true);
-		model.addAttribute("user", new User());
+
 		userService.createUser(user);
-		return "views/loginForm";
+		return "views/success";
 	}
 }

@@ -10,32 +10,29 @@
 		  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 		    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 		      <li class="nav-item active">
-		        <a class="nav-link" th:href="@{/}">Home</a>
+		        <a class="nav-link" href="/">Home</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link" th:href="@{/registerF}">Register</a>
+		        <a sec:authorize="!isAuthenticated()" class="nav-link" href="/register">Register</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link" th:href="@{/login}">Login</a>
+		        <a sec:authorize="!isAuthenticated()" class="nav-link" href="/login">Login</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link" th:href="@{/profile}">Profile</a>
+		        <a sec:authorize="isAuthenticated()" class="nav-link" href="/profile">Profile</a>
 		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" th:href="@{/users}">Users</a>
-		      </li>    
-		      <li class="nav-item">
-		        <a class="nav-link" th:href="@{/about}">About</a>
-		      </li>  
+		      <li sec:authorize="hasRole('ROLE_ADMIN)" class="nav-item">
+		        <a class="nav-link" href="/users">Users</a>
+		      </li>      
 		    </ul>
 			
 			 
-			 
-			 <div th:if="${session.btnLogOut}">
-			 	<form action="#" th:action="@{/logOut}" method="get">
+			<!-- sec:authorize="isAuthenticated()"  da se proveri zasto ne radi ! -->
+			
+			 	<form action="#" th:action="@{/logout}" th:if="${session.btnLogOut}"  method="post">   <!-- th:if="${session.btnLogOut}"  i  th:action="@{/logout}"  -->
 			 		<button type="submit" class="btn" >Logout</button>
 			 	</form>
-			</div>
+			
 				
 		  </div>
 		</nav>

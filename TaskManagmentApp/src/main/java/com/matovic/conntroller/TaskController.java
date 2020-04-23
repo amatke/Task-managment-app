@@ -22,15 +22,8 @@ public class TaskController {
 	@Autowired
 	private UserService userService;
 	
-
 	@Autowired
 	private TaskService taskService;
-	
-	/*
-	 * @GetMapping("/users") public String showIndexPage(Model model) {
-	 * 
-	 * model.addAttribute("users", userService.findAll()); return "views/users"; }
-	 */
 	
 	@GetMapping("/users")
 	public String searchUser(Model model, @RequestParam(defaultValue="")  String searchName) {

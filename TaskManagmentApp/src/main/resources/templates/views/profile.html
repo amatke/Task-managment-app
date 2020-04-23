@@ -6,9 +6,9 @@
 	
 	<div th:replace="fragments/navbar :: my_navbar"></div>	
 	
-	<h3>Profile page</h3>
-	
 	<div class="container">
+	
+			<h3>Profile page</h3>
 		
 			<div th:if="${session.User}">
 				Welcome dear  <p  th:text="${session.User.name}" /> 
