@@ -29,10 +29,6 @@ public class ProfileController {
 		User user = userService.findOne(email);
 		
 		model.addAttribute("tasks", taskService.findUserTask(user));
-		
-		
-		System.out.println("Ulogovan!");
-		model.addAttribute("user", user); 
 		session.setAttribute("User", user);
 		session.setAttribute("btnLogOut", true); 
 		 
